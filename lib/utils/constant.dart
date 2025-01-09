@@ -299,6 +299,7 @@ const DATE_FORMAT_32 = 'dd-MM-yyyy';
 const HOUR_12_FORMAT = 'hh:mm a';
 const DATE_FORMAT_4 = 'dd MMM';
 const DATE_FORMAT_7 = 'yyyy-MM-dd';
+const DATE_FORMAT_72 = 'yyyy-MM-dd HH:mm:ss';
 const DATE_FORMAT_8 = 'd MMM, yyyy hh:mm a';
 const YEAR = 'yyyy';
 const BOOKING_SAVE_FORMAT = "yyyy-MM-dd kk:mm:ss";

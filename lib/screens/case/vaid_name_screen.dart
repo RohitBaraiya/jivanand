@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:jivanand/app_theme.dart';
 import 'package:jivanand/network/rest_apis.dart';
 import 'package:jivanand/screens/vaid/model/VaidListModel.dart';
@@ -15,7 +16,7 @@ import '../../main.dart';
 
 class VaidNameScreen extends StatefulWidget {
 
-  final Function(String name,String locationName)? onComplete;
+  final Function(String name,String locationName,String amount,String followupDate)? onComplete;
 
   const VaidNameScreen({super.key, required this.onComplete, });
 
@@ -37,7 +38,6 @@ class VaidNameScreenState extends State<VaidNameScreen> {
 
   DateTime currentDateTime = DateTime.now();
   DateTime? finalDate;
-  TimeOfDay? pickedTime;
   DateTime? selectedDate;
 
   Future<void> init() async {
@@ -81,7 +81,7 @@ class VaidNameScreenState extends State<VaidNameScreen> {
           }
         });
       }
-      widget.onComplete!.call(id,selectedLocation);
+      widget.onComplete!.call(id,selectedLocation,hospitalDepositCont.text.validate().toString(),dateTimeCont.text.validate().toString());
       finish(context);
 
     }
@@ -99,6 +99,8 @@ class VaidNameScreenState extends State<VaidNameScreen> {
   String selectedLocation = 'Location';
 
   TextEditingController dateTimeCont = TextEditingController();
+  TextEditingController hospitalDepositCont = TextEditingController();
+  FocusNode hospitalDepositFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -208,6 +210,23 @@ class VaidNameScreenState extends State<VaidNameScreen> {
                     ),
                   ),
                   16.height,
+                  AppTextField(
+                    textFieldType: TextFieldType.NUMBER,
+                    controller: hospitalDepositCont,
+                    focus: hospitalDepositFocus,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    maxLength: 4,
+                    isValidationRequired: false,
+                    buildCounter: (_, {required int currentLength, required bool isFocused, required int? maxLength}) {
+                      return const Offstage().visible(false);
+                    },
+                    errorThisFieldRequired: language.requiredText,
+                    decoration: inputDecoration(context, labelText: 'Total Amount'),
+                    suffix: Assets.iconsRupee.iconImage(size: 10).paddingAll(14),
+                  ),
+                  16.height,
                   AppButton(
                     text: 'Submit',
                     color: primaryColor,
@@ -252,35 +271,8 @@ class VaidNameScreenState extends State<VaidNameScreen> {
       },
     ).then((date) async {
       if (date != null) {
-        await showTimePicker(
-          context: context,
-          initialTime: pickedTime ?? TimeOfDay.now(),
-          cancelText: language.lblCancel,
-          confirmText: language.lblOk,
-          builder: (_, child) {
-            return Theme(
-              data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme(),
-              child: child!,
-            );
-          },
-        ).then((time) {
-          if (time != null) {
-            finalDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-
-            DateTime now = DateTime.now().subtract(1.minutes);
-            if (date.isToday && finalDate!.millisecondsSinceEpoch < now.millisecondsSinceEpoch) {
-              return toast(language.selectedOtherBookingTime);
-            }
-
-            selectedDate = date;
-            pickedTime = time;
-
-            dateTimeCont.text = "${formatBookingDate(selectedDate.toString(), format: DATE_FORMAT_32)} ${pickedTime!.format(context).toString()}";
-          }
-          setState(() {});
-        }).catchError((e) {
-          toast(e.toString());
-        });
+        selectedDate = date;
+        dateTimeCont.text = "${formatBookingDate(selectedDate.toString(), format: DATE_FORMAT_32)}";
       }
     });
   }

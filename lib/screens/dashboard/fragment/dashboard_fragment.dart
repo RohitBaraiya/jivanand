@@ -1,5 +1,8 @@
 import 'package:jivanand/generated/assets.dart';
 import 'package:jivanand/main.dart';
+import 'package:jivanand/model/ConfigModel.dart';
+import 'package:jivanand/network/rest_apis.dart';
+import 'package:jivanand/screens/case/active_case_list_screen.dart';
 import 'package:jivanand/screens/case/case_list_screen.dart';
 import 'package:jivanand/screens/dashboard/component/greetings_component.dart';
 import 'package:jivanand/screens/dashboard/component/slider_and_location_component.dart';
@@ -60,11 +63,38 @@ class _DashboardFragmentState extends State<DashboardFragment> with WidgetsBindi
     getDashboardData();
   }
 
-
+  ConfigData? model;
   Future<void> getDashboardData() async {
-
+    appStore.setLoading(true);
+    await getConfig(key: '').then((value) {
+      appStore.setLoading(false);
+      if(value.statusCode==200){
+        if(value.data!=null){
+          model=value.data;
+          if(model !=null){
+            _setCounter();
+          }
+        }
+      }
+    },
+    ).catchError((e) async {
+      toast(e.toString());
+      appStore.setLoading(false);
+      log('catchError ${e.toString()}');
+    });
   }
 
+  String totalCases='-';
+  String totalPayment='-';
+
+  _setCounter() {
+    if(model !=null){
+      setState(() {
+        totalCases = model!.totalPendingCase.validate().toString();
+        totalPayment = model!.totalAmount.validate().toString();
+      });
+    }
+  }
 
   @override
   void setState(fn) {
@@ -116,6 +146,71 @@ class _DashboardFragmentState extends State<DashboardFragment> with WidgetsBindi
                         setState(() {});
                       },
                     ),
+                    10.height,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Card(
+                          color: white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Stack(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  4.height,
+                                  Text('${totalCases.isNotEmpty ? totalCases :'N/A'}',style: boldTextStyle(size: 15,color: textColor),).center(),
+                                  4.height,
+                                  Text('UnPaid Cases',style: primaryTextStyle(size : 12 ,color: textColor),).center(),
+                                  4.height,
+                                ],
+                              ).paddingSymmetric(vertical:3),
+                              Container(
+                                width:5,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topRight:radiusCircular(10),bottomRight: radiusCircular(10)),
+                                  color: const Color(0xFFc31432),
+                                ),
+                              ).paddingSymmetric(vertical: 8),
+                            ],
+                          ),
+                        ).expand(),
+                        2.width,
+                        Card(
+                          color: white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Stack(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  4.height,
+                                  Text('₹ ${totalPayment.isNotEmpty ? totalPayment :'N/A'}',style: boldTextStyle(size: 15,color: textColor),).center(),
+                                  4.height,
+                                  Text('UnPaid Amount',style: primaryTextStyle(size : 12 ,color: textColor),).center(),
+                                  4.height,
+                                ],
+                              ).paddingSymmetric(vertical: 3),
+                              Container(
+                                width:5,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topRight:radiusCircular(10),bottomRight: radiusCircular(10)),
+                                  color: const Color(0xFF11998e),
+                                ),
+                              ).paddingSymmetric(vertical: 8),
+                            ],
+                          ),
+                        ).expand(),
+                      ],
+                    ).paddingSymmetric(horizontal: 5),
                     10.height,
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -258,6 +353,61 @@ class _DashboardFragmentState extends State<DashboardFragment> with WidgetsBindi
                                 ).cornerRadiusWithClipRRect(10),
                                 10.height,
                                 Text('Case Paper PDF',style: boldTextStyle(size: homeSubTitleName,color: textColor),).center(),
+                                10.height,
+                              ],
+                            ),
+                          ),
+                        ).paddingSymmetric(vertical: 5).expand(),
+                      ],
+                    ).paddingSymmetric(horizontal: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        GestureDetector(
+                          onTap: () async{
+                            // const CaseListScreen().launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+                            const ActiveCaseListScreen(titleName: 'Pending Payment',staus: '0',).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+
+                          },
+                          child: BoxWidget(
+                            child:Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                10.height,
+                                Container(
+                                    decoration: BoxDecoration(color: appStore.isDarkMode ? Colors.white24 : context.cardColor, shape: BoxShape.rectangle),
+                                    child: Assets.jivanandBill2.iconImage2(size: homeSubIconSize).paddingAll(8)
+                                ).cornerRadiusWithClipRRect(10),
+                                10.height,
+                                Text('Pending Payment',style: boldTextStyle(size: homeSubTitleName,color: textColor),textAlign: TextAlign.center,).center(),
+                                10.height,
+                              ],
+                            ),
+                          ),
+                        ).paddingSymmetric(vertical: 5).expand(),
+                        10.width,
+                        GestureDetector(
+                          onTap: () async{
+                            //PatientsListScreen(isFromHome: true,).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+                           // const ActiveCaseListScreen(isPayment: true,staus: 'inactive',titleName: 'Paid Payment', paidStatus: '1',).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+                            const ActiveCaseListScreen(titleName: 'Paid Payment',staus: '1',).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+
+                          },
+                          child: BoxWidget(
+                            child:Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                10.height,
+                                Container(
+                                    decoration: BoxDecoration(color: appStore.isDarkMode ? Colors.white24 : context.cardColor, shape: BoxShape.rectangle),
+                                    child: Assets.jivanandReceipt.iconImage2(size: homeSubIconSize).paddingAll(8)
+                                ).cornerRadiusWithClipRRect(10),
+                                10.height,
+                                Text('Paid Payment',style: boldTextStyle(size: homeSubTitleName,color: textColor),textAlign: TextAlign.center,).center(),
                                 10.height,
                               ],
                             ),

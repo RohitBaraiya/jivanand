@@ -84,6 +84,13 @@ class _UserListWidgetState extends State<CaseListWidget> {
                       ),
                       Row(
                         children: [
+                          Text('Amount',style: primaryTextStyle(size: 10,color: textColor),),
+                          Text('-',style: primaryTextStyle(size: 10,color: textColor),).paddingSymmetric(horizontal: 2),
+                          Text(widget.model.caseAmount.validate().toString(),style: boldTextStyle(size: 10,color: textColor),),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Text('Location',style: primaryTextStyle(size: 10,color: textColor),),
                           Text('-',style: primaryTextStyle(size: 10,color: textColor),).paddingSymmetric(horizontal: 2),
                           Text(widget.model.city.validate().toString().capitalizeEachWord(),style: boldTextStyle(size: 10,color: textColor),),

@@ -224,9 +224,9 @@ class _CatListScreenState extends State<PatientsListScreen> with  SingleTickerPr
                   itemBuilder: (context, index) {
                     PatientsListData model=serviceList[index];
                     return PatientsListWidget(isFromHome: widget.isFromHome,isFromHomePDF: widget.isFromHomePDF,
-                      model: model,onDelete: (name,cityName) async {
+                      model: model,onDelete: (name,cityName,amount,followupDate) async {
                        // toast(name);
-                        await addCase(id: model.id.validate().toString(),vaidId: name,cityName: cityName).then((value) async {
+                        await addCase(id: model.id.validate().toString(),vaidId: name,cityName: cityName,caseAmount: amount,followupDate: followupDate).then((value) async {
                           appStore.setLoading(false);
                           toast(value.message.validate().toString());
                           if(value.statusCode == 200) {
@@ -242,26 +242,6 @@ class _CatListScreenState extends State<PatientsListScreen> with  SingleTickerPr
                           toast(e.toString());
                         });
                       },);
-                    /*return PatientsListWidget(isFromHome: widget.isFromHome,
-                      model: model,
-                      onDelete: () async {
-                      appStore.setLoading(true);
-                      await addCase(id: model.id.validate().toString(),).then((value) async {
-                        appStore.setLoading(false);
-                        toast(value.message.validate().toString());
-                        if(value.statusCode == 200) {
-                          *//*init();
-                          setState(() {});
-                          return await 2.seconds.delay;*//*
-                          finish(context);
-                          OfferFromDetailScreen(pid:  model.id.validate().toString(),).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
-
-                        }
-                      }).catchError((e) {
-                        appStore.setLoading(false);
-                        toast(e.toString());
-                      });
-                    },);*/
                   },
                 ).paddingAll(5)
             ],

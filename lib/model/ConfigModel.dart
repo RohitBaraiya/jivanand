@@ -1,47 +1,42 @@
 class ConfigModel {
   int? statusCode;
   String? message;
-  List<ColorList>? colorList;
+  ConfigData? data;
 
-  ConfigModel({this.statusCode, this.message, this.colorList});
+  ConfigModel({this.statusCode, this.message, this.data});
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     message = json['message'];
-    if (json['color_list'] != null) {
-      colorList = <ColorList>[];
-      json['color_list'].forEach((v) {
-        colorList!.add(new ColorList.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? new ConfigData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status_code'] = this.statusCode;
     data['message'] = this.message;
-    if (this.colorList != null) {
-      data['color_list'] = this.colorList!.map((v) => v.toJson()).toList();
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
-class ColorList {
-  int? id;
-  String? colorName;
+class ConfigData {
+  int? totalPendingCase;
+  int? totalAmount;
 
-  ColorList({this.id, this.colorName,});
+  ConfigData({this.totalPendingCase, this.totalAmount});
 
-  ColorList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    colorName = json['color_name'];
+  ConfigData.fromJson(Map<String, dynamic> json) {
+    totalPendingCase = json['total_pending_case'];
+    totalAmount = json['total_amount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['color_name'] = this.colorName;
+    data['total_pending_case'] = this.totalPendingCase;
+    data['total_amount'] = this.totalAmount;
     return data;
   }
 }

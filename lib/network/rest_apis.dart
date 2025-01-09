@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:jivanand/db/model/CartModel.dart';
 import 'package:jivanand/main.dart';
+import 'package:jivanand/model/ConfigModel.dart';
 import 'package:jivanand/model/MsgModel.dart';
 import 'package:jivanand/network/network_utils.dart';
+import 'package:jivanand/screens/case/model/ActiveCaseListModel.dart';
 import 'package:jivanand/screens/case/model/CaseListModel.dart';
 import 'package:jivanand/screens/patients/model/PatientsListModel.dart';
 import 'package:jivanand/screens/patients/model/VisitListMode.dart';
@@ -13,6 +15,19 @@ import 'package:jivanand/utils/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 
+Future<ConfigModel> getConfig({required String key}) async {
+  try {
+    Map<String, dynamic> req = {
+      'time_range': key.isNotEmpty ? key : '',
+    };
+    ConfigModel res = ConfigModel.fromJson(await handleResponse(await buildHttpResponse(urlType: 'my',request: req,'total_pending_list',/* request: req,*/ method: HttpMethodType.POST)));
+    return res;
+  } catch (e) {
+    appStore.setLoading(false);
+    log('eeee${e.toString()}');
+    rethrow;
+  }
+}
 
 
 const int perPageCat=20;
@@ -66,13 +81,15 @@ Future<MsgModel> addPatient({required PatientsListData model,}) async {
 }
 
 
-Future<MsgModel> addCase({required String id,required String vaidId, required String cityName}) async {
+Future<MsgModel> addCase({required String id,required String vaidId, required String cityName, required String caseAmount, required String followupDate,}) async {
   try {
 
     Map<String, dynamic> req = {
       'patient_id': id.isNotEmpty ? id : '',
       'vaid_id': vaidId.isNotEmpty ? vaidId : '',
       'city': cityName.isNotEmpty ? cityName : '',
+      'case_amount': caseAmount.isNotEmpty ? caseAmount : '',
+      'followup_date': followupDate.isNotEmpty ? followupDate : '',
     };
     MsgModel res = MsgModel.fromJson(await handleResponse(await buildHttpResponse(urlType: 'my', 'add_case',request: req, method: HttpMethodType.POST)));
     return res;
@@ -233,9 +250,57 @@ Future<VisitListMode> getPatientVisit({required String pId,}) async {
 
 
 
+Future<ActiveCaseListModel> getActiveCaseWithPagination(int page,
+    {
+      required String status,
+      required String search,
+      var perPage = perPageCat,
+      // required List<CaseData> categoryList,
+      Function(bool)? lastPageCallBack}) async {
+  try {
+    //  String date = formatBookingDate(DateTime.now().toString(),format: DATE_FORMAT_7,);
+    Map<String, dynamic> req = {
+      'search': search.isNotEmpty ? search : '',
+      'page': page.toString() ,
+      'status': status.isNotEmpty ? status : '' ,
+      'limit': perPageCat.toString() ,
+    };
+
+    ActiveCaseListModel res = ActiveCaseListModel.fromJson(await handleResponse(await buildHttpResponse(urlType: 'my', 'get_case_by_status',request: req, method: HttpMethodType.POST)));
+    //log('lastpage ${res.offset.toString()}');
+
+    // lastPageCallBack?.call(res.data!.cases.validate().length != perPage);
+
+    // if (page == 1) categoryList.clear();
+    // categoryList.addAll(res.data!.cases.validate());
+    appStore.setLoading(false);
+    return res;
+  } catch (e) {
+    appStore.setLoading(false);
+    rethrow;
+  }
+}
 
 
+Future<MsgModel> dischargeCase({
+  required String id,
+  required String paidDate,
+  required String caseAmount,
+}) async {
+  try {
 
+    Map<String, dynamic> req = {
+      'id': id.isNotEmpty ? id : '',
+      'paid_date': paidDate.isNotEmpty ? paidDate : '',
+      'case_amount': caseAmount.isNotEmpty ? caseAmount : '',
+      'paid_status': '1',
+    };
+    MsgModel res = MsgModel.fromJson(await handleResponse(await buildHttpResponse(urlType: 'my', 'edit_case',request: req, method: HttpMethodType.POST)));
+    return res;
+  } catch (e) {
+    rethrow;
+  }
+}
 
 
 

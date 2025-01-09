@@ -31,15 +31,22 @@ class CaseListModel {
 }
 
 class CaseData {
+
   int? id;
   int? patientId;
   String? visitDate;
+  String? followUpDate;
+  int? caseAmount;
+  String? followOfStatus;
   String? city;
   PatientDetails? patientDetails;
 
   CaseData({this.id,
     this.patientId,
     this.visitDate,
+    this.followUpDate,
+    this.caseAmount,
+    this.followOfStatus,
     this.city,
     this.patientDetails});
 
@@ -47,6 +54,9 @@ class CaseData {
     id = json['id'];
     patientId = json['patient_id'];
     visitDate = json['visit_date'];
+    followUpDate = json['follow_up_date'];
+    caseAmount = json['case_amount'];
+    followOfStatus = json['follow_of_status'];
     city = json['city'];
     patientDetails = json['patient_details'] != null
         ? new PatientDetails.fromJson(json['patient_details'])
@@ -58,6 +68,9 @@ class CaseData {
     data['id'] = this.id;
     data['patient_id'] = this.patientId;
     data['visit_date'] = this.visitDate;
+    data['follow_up_date'] = this.followUpDate;
+    data['case_amount'] = this.caseAmount;
+    data['follow_of_status'] = this.followOfStatus;
     data['city'] = this.city;
     if (this.patientDetails != null) {
       data['patient_details'] = this.patientDetails!.toJson();

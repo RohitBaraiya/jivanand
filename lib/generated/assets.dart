@@ -115,6 +115,7 @@ class Assets {
   static const String iconsIcShow = 'assets/icons/ic_show.png';
   static const String iconsIcUnFillWallet = 'assets/icons/ic_un_fill_wallet.png';
   static const String iconsPhoneCall = 'assets/icons/phone-call.png';
+  static const String iconsRupee = 'assets/icons/rupee.png';
   static const String imagesSplashBackground = 'assets/images/splash_background.jpg';
   static const String imagesSplashLightBackground = 'assets/images/splash_light_background.png';
   static const String jivanandAssets41340AANGANThumbnail = 'assets/41340_AANGAN_thumbnail.webp';
@@ -124,6 +125,7 @@ class Assets {
   static const String jivanandAssetsRobotoMedium = 'assets/Roboto-Medium.ttf';
   static const String jivanandAssetsRobotoRegular = 'assets/Roboto-Regular.ttf';
   static const String jivanandAyurvedic = 'assets/jivanand/ayurvedic.png';
+  static const String jivanandBill2 = 'assets/jivanand/bill_2.png';
   static const String jivanandBuddha = 'assets/jivanand/buddha.png';
   static const String jivanandCalendar = 'assets/jivanand/calendar.png';
   static const String jivanandDelete = 'assets/jivanand/delete.png';
@@ -132,10 +134,12 @@ class Assets {
   static const String jivanandHealthcare1 = 'assets/jivanand/healthcare_1.png';
   static const String jivanandHealthcare2 = 'assets/jivanand/healthcare_2.png';
   static const String jivanandHealthcare4 = 'assets/jivanand/healthcare_4.png';
+  static const String jivanandHospitalisation = 'assets/jivanand/hospitalisation.png';
   static const String jivanandJivanandLogo = 'assets/jivanand/jivanand_logo.png';
   static const String jivanandMedicalReport = 'assets/jivanand/medical-report.png';
   static const String jivanandPatient = 'assets/jivanand/patient.png';
   static const String jivanandPdfColor = 'assets/jivanand/pdf_color.png';
+  static const String jivanandReceipt = 'assets/jivanand/receipt.png';
   static const String jivanandReceptionist = 'assets/jivanand/receptionist.png';
   static const String jsonAllCat = 'assets/json/all_cat.json';
   static const String jsonCat = 'assets/json/cat.json';

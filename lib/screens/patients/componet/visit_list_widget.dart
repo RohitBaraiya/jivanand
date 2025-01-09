@@ -68,6 +68,8 @@ class _UserListWidgetState extends State<VisitListWidget> {
                   children: [
                     Text('Vaidya Name - ${widget.model.vaidName.validate().toString().capitalizeEachWord()}',style: primaryTextStyle(size: 12,color: textColor),),
                     Text('Visit Date - ${formatBookingDate(widget.model.visitDate.validate().toString(),format: DATE_FORMAT_DAY_MONTH_YEAR_TIME,)}',style: primaryTextStyle(size: 12,color: textColor),),
+                    if(widget.model.caseAmount.validate() > 0)
+                      Text('Case Amount - ${widget.model.caseAmount.validate().toString()}',style: boldTextStyle(size: 12,color: textColor),),
                     Text('Location - ${widget.model.city.validate().toString().capitalizeEachWord()}',style: boldTextStyle(size: 12,color: textColor),),
                   ],
                 ).paddingSymmetric(horizontal: 8,vertical: 8),

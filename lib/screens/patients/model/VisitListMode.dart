@@ -31,16 +31,19 @@ class VisitListData {
   String? vaidName;
   String? city;
   String? visitDate;
+  int? caseAmount;
 
   VisitListData({
     this.vaidName,
     this.city,
-    this.visitDate});
+    this.visitDate,
+    this.caseAmount});
 
   VisitListData.fromJson(Map<String, dynamic> json) {
     vaidName = json['vaid_name'];
     city = json['city'];
     visitDate = json['visit_date'];
+    caseAmount = json['case_amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +51,7 @@ class VisitListData {
     data['vaid_naame'] = this.vaidName;
     data['city'] = this.city;
     data['visit_date'] = this.visitDate;
+    data['case_amount'] = this.caseAmount;
     return data;
   }
 }

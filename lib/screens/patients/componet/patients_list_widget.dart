@@ -15,7 +15,8 @@ import 'package:nb_utils/nb_utils.dart';
 
 class PatientsListWidget extends StatefulWidget {
   final PatientsListData model;
-  final Function(String name, String locationName)? onDelete;
+  final Function(String name,String locationName,String amount,String followupDate)? onDelete;
+
   final bool? isFromHome;
   final bool? isFromHomePDF;
 
@@ -96,8 +97,8 @@ class _UserListWidgetState extends State<PatientsListWidget> {
                             context,
                             contentPadding: EdgeInsets.zero,
                             dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
-                            builder: (_) => VaidNameScreen(onComplete: (name,locationName) {
-                              widget.onDelete!.call(name,locationName);
+                            builder: (_) => VaidNameScreen(onComplete: (name,locationName,amount,followupDate) {
+                              widget.onDelete!.call(name,locationName,amount,followupDate);
                               setState(() {},);
                             },),
                             /*builder: (_) => VaidNameScreen(onComplete: (name) {

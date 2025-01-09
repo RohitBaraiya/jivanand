@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:jivanand/generated/assets.dart';
 import 'package:jivanand/main.dart';
 import 'package:jivanand/screens/dashboard/dashboard_screen.dart';
+import 'package:jivanand/screens/dashboard/fragment/dashboard_fragment.dart';
 import 'package:jivanand/utils/colors.dart';
 import 'package:jivanand/utils/configs.dart';
 import 'package:jivanand/utils/constant.dart';
@@ -93,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await 2000.milliseconds.delay;
    //  AddProductScreen(price: '',id: '',catId: '',catName: '',image: '',name: '',).launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
     setValue(AUTO_SLIDER_STATUS, true);
-    DashboardScreen().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+    DashboardFragment().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
 
   }
 

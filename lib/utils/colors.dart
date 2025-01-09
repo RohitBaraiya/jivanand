@@ -31,6 +31,7 @@ const newCardColor1 = Color(0xFFE8EDE3);
 const newCardColor2 = Color(0xFFFAFEF7);
 const newTextColor = Color(0xFF3C4930);
 const chipColor = Color(0xFFE8E7DD);
+const approw = Color(0xFF0065FF);
 
 
 
