@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "691718003625",
+    "project_id": "jivanand",
+    "storage_bucket": "jivanand.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691718003625:android:907ce98f60a5f7dd4682b8",
+        "android_client_info": {
+          "package_name": "com.jito.jivanand"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbJtAkt5poIt-hREM33h0qSfre3L_hJqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
