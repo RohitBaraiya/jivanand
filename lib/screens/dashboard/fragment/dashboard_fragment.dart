@@ -35,14 +35,14 @@ class _DashboardFragmentState extends State<DashboardFragment> with WidgetsBindi
   @override
   void didChangeAppLifecycleState(final AppLifecycleState state) {
     // log('Background');
-    if (state == AppLifecycleState.resumed) {
-      LiveStream().emit(LIVESTREAM_UPDATE_DASHBOARD);
+    //if (state == AppLifecycleState.resumed) {
+     // LiveStream().emit(LIVESTREAM_UPDATE_DASHBOARD);
       /*log('Background');
       if(appStore.isLogOut==true){
         log('userLogOut');
         userLogOut();
       }*/
-    }
+   // }
   }
 
 

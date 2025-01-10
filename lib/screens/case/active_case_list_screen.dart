@@ -66,11 +66,11 @@ class _CatListScreenState extends State<ActiveCaseListScreen> with  SingleTicker
     ).then((value) {
       if (page == 1) serviceList.clear();
       if(value.statusCode == 200){
+        totalApprovedAmount = value.data!.totalAmount.validate();
+        totalCase = value.data!.totalPendingCase.validate();
+
         if(value.data!.visit.validate().isNotEmpty){
           serviceList.addAll(value.data!.visit.validate());
-
-          totalApprovedAmount = value.data!.totalAmount.validate();
-          totalCase = value.data!.totalPendingCase.validate();
         }/*else{
           serviceList =[];
         }*/
